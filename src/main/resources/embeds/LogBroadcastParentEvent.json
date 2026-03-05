@@ -1,0 +1,32 @@
+{
+  "embeds": [
+    {
+      "title": "LuckPerms: ${actionPretty}",
+      "fields": [
+        {
+          "name": "Actor",
+          "value": "`${sourceName}`",
+          "inline": true
+        },
+        {
+          "name": "Target",
+          "value": "`${targetDisplay}`",
+          "inline": true
+        },
+        {
+          "name": "Parent Group",
+          "value": "`${parentGroupDisplay}`",
+          "inline": false
+        },
+        {
+          "name": "Details",
+          "value": "`${description}`",
+          "inline": false
+        }
+      ],
+      "footer": {
+        "text": "Powered by LuckpermsWebhook"
+      }
+    }
+  ]
+}

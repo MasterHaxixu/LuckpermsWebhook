@@ -1,0 +1,14 @@
+name: LuckpermsWebhook
+version: 1.0
+main: com.masterhaxixu.luckpermswebhook.Main
+commands:
+  luckpermswebhook:
+    description: Reloads LuckpermsWebhook config and embeds
+    usage: /luckpermswebhook reload
+    permission: luckpermswebhook.reload
+permissions:
+  luckpermswebhook.reload:
+    description: Permission to reload plugin
+    default: op
+api-version: 1.21
+depend: [LuckPerms]
