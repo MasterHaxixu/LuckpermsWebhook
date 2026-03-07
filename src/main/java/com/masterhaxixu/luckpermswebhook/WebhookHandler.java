@@ -32,7 +32,7 @@ public class WebhookHandler {
             return;
         }
 
-        Map<String, String> vars = buildVariables(entry);
+        Map<String, String> vars = buildVariables(entry, plugin.getServerName());
         vars.put("eventType", "LogBroadcastEvent");
         vars.put("origin", event.getOrigin().name());
 
@@ -76,11 +76,12 @@ public class WebhookHandler {
         });
     }
 
-    private static Map<String, String> buildVariables(Action entry) {
+    private static Map<String, String> buildVariables(Action entry, String serverName) {
         Map<String, String> vars = new HashMap<>();
 
         vars.put("timestamp", entry.getTimestamp() == null ? "" : entry.getTimestamp().toString());
         vars.put("description", safe(entry.getDescription()));
+        vars.put("serverName", safe(serverName));
 
         // Source (who executed the command)
         vars.put("sourceName", safe(entry.getSource().getName()));

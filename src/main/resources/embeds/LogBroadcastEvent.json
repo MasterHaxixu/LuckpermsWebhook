@@ -20,7 +20,7 @@
         }
       ],
       "footer": {
-        "text": "Powered by LuckpermsWebhook"
+        "text": "${serverName} - Powered by LuckpermsWebhook"
       }
     }
   ]

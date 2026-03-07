@@ -26,6 +26,7 @@ import net.luckperms.api.LuckPerms;
  */
 public class Main extends JavaPlugin {
 
+    private LuckPerms luckPerms;
     private final Map<String, String> embeds = new HashMap<>();
     private final List<String> eventTypes = Arrays.asList(
             "LogBroadcastEvent",
@@ -108,7 +109,7 @@ public class Main extends JavaPlugin {
     }
 
     public void initLuckperms() {
-        LuckPerms luckPerms = getServer().getServicesManager().load(LuckPerms.class);
+        luckPerms = getServer().getServicesManager().load(LuckPerms.class);
         if (luckPerms == null) {
             getLogger().severe("LuckPerms not found! Disabling plugin.");
             getServer().getPluginManager().disablePlugin(this);
@@ -123,6 +124,10 @@ public class Main extends JavaPlugin {
 
     public void shutdownMetrics() {
         metrics.shutdown();
+    }
+
+    public String getServerName() {
+        return luckPerms.getServerName();
     }
 
     public Map<String, String> getEmbeds() {
