@@ -2,6 +2,8 @@ package com.masterhaxixu.luckpermswebhook;
 
 import java.util.Locale;
 
+import org.bukkit.configuration.file.FileConfiguration;
+
 public class ParsedAction {
     // AI Generated ♥
 
@@ -22,7 +24,7 @@ public class ParsedAction {
         this.effect = effect;
     }
 
-    static ParsedAction tryParse(String description) {
+    static ParsedAction tryParse(FileConfiguration config, String description) {
         if (description == null) {
             return new ParsedAction("", "", "action", "", "Action", "");
         }
@@ -40,12 +42,12 @@ public class ParsedAction {
                 String val = parts[3].toLowerCase(Locale.ROOT);
                 // Better wording: setting to false is a denial/negation, not a "remove".
                 if ("true".equals(val)) {
-                    return new ParsedAction(perm, val, "permission_set", "", "Granted permission", "granted");
+                    return new ParsedAction(perm, val, "permission_set", "", config.getString("eventTitles.GRANTED_PERMISSION.string"), "granted");
                 }
                 if ("false".equals(val)) {
-                    return new ParsedAction(perm, val, "permission_set", "", "Denied permission", "denied");
+                    return new ParsedAction(perm, val, "permission_set", "", config.getString("eventTitles.DENIED_PERMISSION.string"), "denied");
                 }
-                return new ParsedAction(perm, val, "permission_set", "", "Set permission", "updated");
+                return new ParsedAction(perm, val, "permission_set", "", config.getString("eventTitles.SET_PERMISSION.string"), "updated");
             }
         }
 
@@ -53,7 +55,7 @@ public class ParsedAction {
             String[] parts = d.split("\\s+");
             if (parts.length >= 3) {
                 String perm = parts[2];
-                return new ParsedAction(perm, "", "permission_unset", "", "Cleared permission", "cleared");
+                return new ParsedAction(perm, "", "permission_unset", "", config.getString("eventTitles.CLEARED_PERMISSION.string"), "cleared");
             }
         }
 
@@ -61,20 +63,21 @@ public class ParsedAction {
         if (lower.startsWith("parent add ")) {
             String[] parts = d.split("\\s+");
             if (parts.length >= 3) {
-                return new ParsedAction("", "", "parent_add", parts[2], "Added parent group", "added");
+                return new ParsedAction("", "", "parent_add", parts[2], config.getString("eventTitles.ADDED_PARENT_GROUP.string"), "added");
             }
         }
         if (lower.startsWith("parent remove ")) {
             String[] parts = d.split("\\s+");
             if (parts.length >= 3) {
-                return new ParsedAction("", "", "parent_remove", parts[2], "Removed parent group", "removed");
+                return new ParsedAction("", "", "parent_remove", parts[2], config.getString("eventTitles.REMOVED_PARENT_GROUP.string"), "removed");
             }
         }
 
         String[] parts = d.split("\\s+");
         String fallbackAction = parts.length > 0 ? parts[0].toLowerCase(Locale.ROOT) : "action";
         String pretty = parts.length > 0 ? capitalize(parts[0]) : "Action";
-        return new ParsedAction("", "", fallbackAction, "", pretty, "");
+        String finalTitle = config.getString("eventTitles.FALLBACK_ACTION.string").replace("${FALLBACK_ACTION}", fallbackAction);
+        return new ParsedAction("", "", finalTitle, "", pretty, "");
     }
 
     private static String capitalize(String s) {

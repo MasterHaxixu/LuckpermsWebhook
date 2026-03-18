@@ -32,7 +32,7 @@ public class WebhookHandler {
             return;
         }
 
-        Map<String, String> vars = buildVariables(entry, plugin.getServerName());
+        Map<String, String> vars = buildVariables(plugin, entry);
         vars.put("eventType", "LogBroadcastEvent");
         vars.put("origin", event.getOrigin().name());
 
@@ -76,12 +76,12 @@ public class WebhookHandler {
         });
     }
 
-    private static Map<String, String> buildVariables(Action entry, String serverName) {
+    private static Map<String, String> buildVariables(Main plugin, Action entry) {
         Map<String, String> vars = new HashMap<>();
 
         vars.put("timestamp", entry.getTimestamp() == null ? "" : entry.getTimestamp().toString());
         vars.put("description", safe(entry.getDescription()));
-        vars.put("serverName", safe(serverName));
+        vars.put("serverName", safe(plugin.getServerName()));
 
         // Source (who executed the command)
         vars.put("sourceName", safe(entry.getSource().getName()));
@@ -93,7 +93,7 @@ public class WebhookHandler {
         vars.put("targetUuid", entry.getTarget().getUniqueId().map(java.util.UUID::toString).orElse(""));
 
         // Parse commonly-used action details from description.
-        ParsedAction parsed = ParsedAction.tryParse(entry.getDescription());
+        ParsedAction parsed = ParsedAction.tryParse(plugin.getConfig(), entry.getDescription());
         vars.put("permission", parsed.permission);
         vars.put("value", parsed.value);
         vars.put("action", parsed.action);

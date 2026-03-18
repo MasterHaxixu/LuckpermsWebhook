@@ -2,3 +2,17 @@ webhooks:
   luckperms:
     enabled: true
     url: "https://discord.com/api/webhooks/123456789012345678/abcdefghijklmnopqrstuvwxyz"
+
+eventTitles:
+    DENIED_PERMISSION:
+        string: "Denied permission"
+    GRANTED_PERMISSION:
+        string: "Granted permission"
+    SET_PERMISSION:
+        string: "Set permission"
+    ADDED_PARENT_GROUP:
+        string: "Added parent group"
+    REMOVED_PARENT_GROUP:
+        string: "Removed parent group"
+    FALLBACK_ACTION:
+        string: "${FALLBACK_ACTION}"

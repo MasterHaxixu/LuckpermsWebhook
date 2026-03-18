@@ -34,6 +34,7 @@ public class Main extends JavaPlugin {
             "LogBroadcastParentEvent");
     private LuckpermsListener luckpermsListener;
     public static final ErrorTracker ERROR_TRACKER = ErrorTracker.contextAware();
+
     private final Metrics metrics = BukkitMetrics.factory()
             .token("22f89ca898749b5dce9fae10139d4596")
             .errorTracker(ERROR_TRACKER)
@@ -42,10 +43,16 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        applyConfigDefaults();
         reloadEmbeds();
         checkEnabled();
         initLuckperms();
         initMetrics();
+    }
+
+    private void applyConfigDefaults() {
+        getConfig().options().copyDefaults(true);
+        saveConfig();
     }
 
     @Override

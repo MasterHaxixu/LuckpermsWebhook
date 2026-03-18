@@ -1,5 +1,5 @@
 name: LuckpermsWebhook
-version: 1.0
+version: 1.2
 main: com.masterhaxixu.luckpermswebhook.Main
 commands:
   luckpermswebhook:
